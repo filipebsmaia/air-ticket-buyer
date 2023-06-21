@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String @id @default(uuid()) @db.VarChar(36)
+  email          String @unique @db.VarChar(255)
+  name           String @db.VarChar(255)
+  password       String @db.VarChar(255)
+  identityNumber String @map("identity_number") @db.VarChar(16)
+  seats          Seat[]
+
+  @@map("users")
+}
+
+model Pilot {
+  id      String   @id @default(uuid()) @db.VarChar(36)
+  name    String   @db.VarChar(255)
+  flights Flight[]
+
+  @@map("pilots")
+}
+
+enum AIRPLANE_MODEL {
+  BOEING_737
+}
+
+model Airport {
+  id               String   @id @default(uuid()) @db.VarChar(36)
+  name             String   @db.VarChar(255)
+  slug             String   @db.VarChar(5)
+  departingFlights Flight[] @relation("departure")
+  arrivalFlight    Flight[] @relation("arrival")
+
+  @@map("airports")
+}
+
+model Airline {
+  id      String   @id @default(uuid()) @db.VarChar(36)
+  name    String   @db.VarChar(255)
+  flights Flight[]
+
+  @@map("airlines")
+}
+
+model Airplane {
+  id           String         @id @default(uuid()) @db.VarChar(36)
+  model        AIRPLANE_MODEL
+  serialNumber Int            @map("serial_number")
+  flight       Flight[]
+
+  @@map("airplanes")
+}
+
+model Flight {
+  id                  String   @id @default(uuid()) @db.VarChar(36)
+  number              Int      @default(autoincrement())
+  value               Float    @db.Real
+  departureDate       DateTime @map("departure_date")
+  expectedArrivalDate DateTime @map("expected_arrival_date")
+  seats               Seat[]
+  //
+  pilot               Pilot    @relation(fields: [pilotId], references: [id])
+  pilotId             String   @map("pilot_id") @db.VarChar(36)
+  //
+  departureAirport    Airport  @relation("departure", fields: [departureAirportId], references: [id])
+  departureAirportId  String   @map("departure_airport_id") @db.VarChar(36)
+  //
+  arrivalAirport      Airport  @relation("arrival", fields: [arrivalAirportId], references: [id])
+  arrivalAirportId    String   @map("arrival_airport_id") @db.VarChar(36)
+  //
+  airline             Airline  @relation(fields: [airlineId], references: [id])
+  airlineId           String   @map("airline_id") @db.VarChar(36)
+  //
+  airplane            Airplane @relation(fields: [airplaneId], references: [id])
+  airplaneId          String   @map("airplane_id") @db.VarChar(36)
+
+  @@map("flights")
+}
+
+model Seat {
+  id           String  @id @default(uuid()) @db.VarChar(36)
+  code         String  @db.VarChar(16)
+  isExecutive  Boolean @map("is_executive")
+  //
+  flight       Flight  @relation(fields: [flightId], references: [id])
+  flightId     String  @map("flight_id")
+  //
+  reservedBy   User?   @relation(fields: [reservedById], references: [id])
+  reservedById String? @map("reserved_by_id") @db.VarChar(36)
+
+  @@map("seats")
+}

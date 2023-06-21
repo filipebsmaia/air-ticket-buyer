@@ -1,0 +1,100 @@
+@import "../../variables.module";
+
+.container {
+  align-self: flex-start;  
+  max-width: 320px;
+
+  background-color: #fff;
+  border-radius: 30px;
+
+
+  svg {
+    color: #800f71;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    background-color: #800f71;
+
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+
+    height: 60px;
+    
+    
+    .title {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+
+      strong {
+        color: #fff;
+        margin-left: 0.5rem;
+      }
+
+      .icon {
+        padding: 8px;
+        background-color: #fff;
+        border-radius: 50%;
+      }
+
+    }
+
+    .price {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: #fff;
+      margin-right: 1.5rem;
+      text-align: center;
+
+      span {
+        font-size: 0.9rem;
+      }
+    }
+  }
+  
+  & + .container {
+    .header {
+      border-radius: 30px;
+
+    }
+  }
+  
+
+  &.executive {
+    svg {
+      color: #1b0088;
+    }
+
+    .header {
+      background-color: #1b0088;
+    }
+  }
+
+  .body {
+    padding: 1rem;
+    margin-right: 1rem;
+
+    > ul {
+      list-style: none;
+
+      li {
+        display: flex;
+        align-items: center;
+
+        padding: 0 0.5rem;
+
+        span {
+          margin-left: 0.5rem
+        }
+      }
+      li + li {
+        margin-top: 1rem;
+      }
+    }
+  }
+}

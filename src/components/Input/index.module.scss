@@ -1,0 +1,22 @@
+@import "../../variables.module";
+
+.container {
+  input {
+    margin-top: 0.25rem;
+    width: 100%;
+    max-width: 360px;
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid #D0D5DD;
+    padding: 1rem;
+
+    &::placeholder {
+      color: #667085
+    }
+  }
+
+  label {
+    color: #344054;
+    font-weight: 500;
+  }
+}

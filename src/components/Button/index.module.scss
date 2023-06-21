@@ -1,0 +1,21 @@
+@import "../../variables.module";
+
+.button {  
+  background-color: $primary-color;
+  color: #fff;
+  font-weight: 600;
+  padding: 1rem 3rem;
+
+  border: 0;
+  border-radius: 8px;
+
+  letter-spacing: 0.1rem;
+
+  transition: all .3s;
+
+}
+
+.button:hover {
+  filter: brightness(0.9);
+  cursor: pointer;
+}

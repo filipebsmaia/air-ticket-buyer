@@ -1,0 +1,93 @@
+@import "../../variables.module";
+
+
+
+.canvas {
+  position: relative;
+  
+}
+
+.hidden {
+  display: none;
+}
+
+.modal {
+  position: absolute;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+
+  // width: 140px;
+  // height: 80px;
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  opacity: 0;
+  transition: opacity 1s;
+
+  border: 1px solid $common;
+
+  > div {
+    background-color: $common;
+    padding: 0.5rem 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: #fff;
+
+    span {
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+
+    strong {
+      font-weight: 600;
+    }
+  }
+
+  > span {
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    vertical-align: center;
+
+    color: $common;
+    font-weight: 600;
+  }
+
+  &.executive {
+    border: 1px solid $executive;
+
+    > div {
+      background-color: $executive; 
+    }
+    > span {
+      color: $executive;
+    }
+  }
+  
+  &.reserved {
+    border: 1px solid #b8b8b8;
+    > div {
+      background-color: #b8b8b8; 
+      color: $text-primary-color;
+    }
+    > span {
+      color: $text-primary-color;
+    }
+  }
+
+  &.hover {
+    opacity: 1;
+  }
+  
+  &.hidden {
+    opacity: 0;
+    border: 0;
+    transition: opacity .0s;
+  }
+}

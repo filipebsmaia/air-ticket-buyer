@@ -1,95 +1,109 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+'use client';
+import Input from '@/components/Input';
+import { DateRange } from 'react-date-range';
 
-export default function Home() {
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+
+import styles from './styles.module.scss';
+
+import Image from 'next/image';
+import { useState } from 'react';
+import Button from '@/components/Button';
+import FlightSelectorItem from '@/components/FlightSelectorItem';
+
+import {
+  Airline,
+  Airplane,
+  Airport,
+  Flight,
+  Pilot,
+  Seat,
+} from '@prisma/client';
+import Link from 'next/link';
+
+type GetFlights = Array<
+  Flight & {
+    airline: Airline;
+    airplane: Airplane;
+    arrivalAirport: Airport;
+    departureAirport: Airport;
+    pilot: Pilot;
+    seats: Seat[];
+  }
+>;
+
+const getFlights = async (): Promise<GetFlights> => {
+  const flights = await fetch('http://localhost:3000/api/flights');
+
+  const jsonFlights = (await flights.json()) as GetFlights;
+
+  const parsedFlights = jsonFlights.map((flight) => ({
+    ...flight,
+    expectedArrivalDate: new Date(flight.expectedArrivalDate),
+    departureDate: new Date(flight.departureDate),
+  }));
+
+  return parsedFlights;
+};
+
+export default async function Home() {
+  const [state, setState] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
+
+  const flights = await getFlights();
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+      <div className={styles.content}>
+        <div className={styles.banner}>
+          <div className={styles.banner_text}>
+            <h2>Destinos nacionais e internacionais</h2>
+          </div>
+          <div className={styles.background}>
+            <Image src="/beach-banner.jpg" alt="A" fill={true} />
+          </div>
         </div>
-      </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        <div className={styles.selector}>
+          <Input placeholder="Digite a origem" />
+          <Input placeholder="Digite o destino" />
+          <DateRange
+            editableDateInputs={true}
+            minDate={new Date()}
+            onChange={(item) => setState([item.selection])}
+            moveRangeOnFirstSelection={false}
+            ranges={state}
+          />
+          <Button>Procurar</Button>
+        </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <section className={styles.flights}>
+          <ul>
+            {flights.map((flight, index) => {
+              return (
+                <li key={flight.id}>
+                  <Link href={`/seat-selector/${flight.id}`}>
+                    <FlightSelectorItem
+                      recomended={index <= 3}
+                      departureAirport={flight.departureAirport}
+                      departureDate={flight.departureDate}
+                      arrivalAirport={flight.arrivalAirport}
+                      arrivalDate={flight.expectedArrivalDate}
+                      value={flight.value}
+                    />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       </div>
     </main>
-  )
+  );
 }
