@@ -1,90 +1,122 @@
 [
   {
     "slug": "SSA",
-    "name": "Aeroporto Internacional de Salvador"
+    "name": "Aeroporto Internacional de Salvador",
+    "city": "Salvador",
+    "state": "Bahia"
   },
   {
     "slug": "FEC",
-    "name": "Aeroporto de Feira de Santana"
-  },
-  {
-    "slug": "AJU",
-    "name": "Aeroporto Santa Maria, Aracaju"
-  },
-  {
-    "slug": "BEL",
-    "name": "Aeroporto Val de Caes, Belém"
-  },
-  {
-    "slug": "BGX",
-    "name": "Aeroporto de Bagé"
-  },
-  {
-    "slug": "BNU",
-    "name": "Aeroporto de Blumenau"
-  },
-  {
-    "slug": "BPS",
-    "name": "Aeroporto de Porto Seguro"
-  },
-  {
-    "slug": "BSB",
-    "name": "Aeroporto Juscelino Kubitschek, Brasília "
-  },
-  {
-    "slug": "BVB",
-    "name": "Aeroporto de Boa Vista"
-  },
-  {
-    "slug": "CAC",
-    "name": "Aeroporto de Cascavel"
-  },
-  {
-    "slug": "CFB",
-    "name": "Aeroporto de Cabo Frio"
-  },
-  {
-    "slug": "CGB",
-    "name": "Aeroporto de Cuiabá"
-  },
-  {
-    "slug": "JOI",
-    "name": "Aeroporto de Joinville"
+    "name": "Aeroporto de Feira de Santana",
+    "city": "Feira de Santana",
+    "state": "Bahia"
   },
   {
     "slug": "CGH",
-    "name": "Aeroporto de Congonhas, São Paulo"
+    "name": "Aeroporto Internacional de São Paulo",
+    "city": "São Paulo",
+    "state": "São Paulo"
   },
   {
-    "slug": "SDU",
-    "name": "Santos Dumont, no Rio de Janeiro"
-  },
-  {
-    "slug": "GRU",
-    "name": "Aeroporto Franco Montoro, em Guarulhos"
+    "slug": "BSB",
+    "name": "Aeroporto Internacional de Brasília",
+    "city": "Brasília",
+    "state": "Distrito Federal"
   },
   {
     "slug": "GIG",
-    "name": "Aeroporto do Galeão, Rio de Janeiro"
+    "name": "Aeroporto Internacional do Rio de Janeiro",
+    "city": "Rio de Janeiro",
+    "state": "Rio de Janeiro"
   },
   {
-    "slug": "MCZ",
-    "name": "Aeroporto Zumbi dos Palmares, Maceió"
+    "slug": "FLN",
+    "name": "Aeroporto Internacional de Florianópolis",
+    "city": "Florianópolis",
+    "state": "Santa Catarina"
   },
   {
-    "slug": "PMW",
-    "name": "Aeroporto de Palmas"
+    "slug": "POA",
+    "name": "Aeroporto Internacional de Porto Alegre",
+    "city": "Porto Alegre",
+    "state": "Rio Grande do Sul"
+  },
+  {
+    "slug": "VCP",
+    "name": "Aeroporto Internacional de Viracopos",
+    "city": "Campinas",
+    "state": "São Paulo"
   },
   {
     "slug": "REC",
-    "name": "Aeroporto dos Guararapes, Recife"
+    "name": "Aeroporto Internacional do Recife",
+    "city": "Recife",
+    "state": "Pernambuco"
   },
   {
-    "slug": "UDI",
-    "name": "Aeroporto de Uberlândia"
+    "slug": "CWB",
+    "name": "Aeroporto Internacional de Curitiba",
+    "city": "Curitiba",
+    "state": "Paraná"
+  },
+  {
+    "slug": "BEL",
+    "name": "Aeroporto Internacional de Belém",
+    "city": "Belém",
+    "state": "Pará"
+  },
+  {
+    "slug": "VIX",
+    "name": "Aeroporto de Vitória",
+    "city": "Vitória",
+    "state": "Espírito Santo"
+  },
+  {
+    "slug": "SDU",
+    "name": "Aeroporto Santos Dumont",
+    "city": "Rio de Janeiro",
+    "state": "Rio de Janeiro"
+  },
+  {
+    "slug": "CGB",
+    "name": "Aeroporto Internacional de Cuiabá",
+    "city": "Cuiabá",
+    "state": "Mato Grosso"
+  },
+  {
+    "slug": "CGR",
+    "name": "Aeroporto Internacional de Campo Grande",
+    "city": "Campo Grande",
+    "state": "Mato Grosso do Sul"
+  },
+  {
+    "slug": "FOR",
+    "name": "Aeroporto Internacional de Fortaleza",
+    "city": "Fortaleza",
+    "state": "Ceará"
+  },
+  {
+    "slug": "MCP",
+    "name": "Aeroporto Internacional de Macapá",
+    "city": "Macapá",
+    "state": "Amapá"
+  },
+  {
+    "slug": "MGF",
+    "name": "Aeroporto Regional de Maringá",
+    "city": "Maringá",
+    "state": "Paraná"
   },
   {
     "slug": "GYN",
-    "name": "Aeroporto de Goiânia"
+    "name": "Aeroporto de Goiânia",
+    "city": "Goiânia",
+    "state": "Goiás"
+  },
+  {
+    "slug": "NVT",
+    "name": "Aeroporto Internacional de Navegantes",
+    "city": "Navegantes",
+    "state": "Santa Catarina"
   }
 ]

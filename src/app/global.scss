@@ -38,3 +38,45 @@ button {
   cursor: pointer;
   font-size: 1rem;
 }
+
+button, 
+input {
+    font-family: inherit;
+}
+
+.rdp {
+  position: absolute;
+  top: 38px;
+  left: 0;
+
+  margin: 0 !important;
+  padding: 0 0.5rem 1rem;
+  background: #fff;
+
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  
+
+  --rdp-accent-color: #dfd4f5 !important;
+  --rdp-background-color: #dfd4f5 !important;
+  
+  
+  --rdp-cell-size: 32px !important;
+  --rdp-caption-font-size: 1rem !important;
+  // --rdp-accent-color: #dfd4f5 !important;
+  // --rdp-background-color: #e7edff;
+  // --rdp-accent-color-dark: #3003e1;
+  // --rdp-background-color-dark: #180270;
+  // --rdp-outline: 2px solid var(--rdp-accent-color);
+  // --rdp-outline-selected: 3px solid var(--rdp-accent-color);
+
+  .rdp-day_selected {
+    color: $text-primary-color;
+
+    &:hover {
+      font-weight: 700;
+      color: $text-primary-color;
+    }
+  }
+
+}

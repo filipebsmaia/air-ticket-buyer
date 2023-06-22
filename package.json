@@ -20,9 +20,10 @@
     "jsonwebtoken": "^9.0.0",
     "next": "13.4.4",
     "react": "18.2.0",
-    "react-date-range": "^1.4.0",
+    "react-day-picker": "^8.8.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.9.0",
+    "react-select": "^5.7.3",
     "sass": "^1.62.1",
     "swr": "^2.1.5",
     "typescript": "5.1.3"

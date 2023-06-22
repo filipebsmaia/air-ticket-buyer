@@ -1,16 +1,12 @@
 'use client';
-import Input from '@/components/Input';
-import { DateRange } from 'react-date-range';
-
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
-
-import styles from './styles.module.scss';
 
 import Image from 'next/image';
-import { useState } from 'react';
-import Button from '@/components/Button';
-import FlightSelectorItem from '@/components/FlightSelectorItem';
+import { useEffect, useState } from 'react';
+import AsyncSelect from 'react-select/async';
+import { addDays, format } from 'date-fns';
+import { DayPicker, DateRange } from 'react-day-picker';
+import Link from 'next/link';
+import { ptBR } from 'date-fns/locale';
 
 import {
   Airline,
@@ -20,7 +16,17 @@ import {
   Pilot,
   Seat,
 } from '@prisma/client';
-import Link from 'next/link';
+import FlightSelectorItem from '@/components/FlightSelectorItem';
+
+import styles from './styles.module.scss';
+import 'react-day-picker/dist/style.css';
+
+interface GetFlightsProps {
+  departureAirport?: string;
+  arrivalAirport?: string;
+  arrivalDate?: Date;
+  departureDate?: Date;
+}
 
 type GetFlights = Array<
   Flight & {
@@ -33,8 +39,30 @@ type GetFlights = Array<
   }
 >;
 
-const getFlights = async (): Promise<GetFlights> => {
-  const flights = await fetch('http://localhost:3000/api/flights');
+type GetCities = Array<{
+  city: string;
+  state: string;
+}>;
+
+interface Options {
+  value: string;
+  label: string;
+}
+
+const getFlights = async ({
+  arrivalAirport,
+  arrivalDate,
+  departureAirport,
+  departureDate,
+}: GetFlightsProps): Promise<GetFlights> => {
+  const flights = await fetch(
+    `http://localhost:3000/api/flights? ${new URLSearchParams({
+      arrivalDate: arrivalDate?.toISOString() || '',
+      departureAirport: departureAirport || '',
+      departureDate: departureDate?.toISOString() || '',
+      arrivalAirport: arrivalAirport || '',
+    })}`,
+  );
 
   const jsonFlights = (await flights.json()) as GetFlights;
 
@@ -47,16 +75,68 @@ const getFlights = async (): Promise<GetFlights> => {
   return parsedFlights;
 };
 
-export default async function Home() {
-  const [state, setState] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection',
-    },
-  ]);
+const getCities = async (): Promise<GetCities> => {
+  const flights = await fetch('http://localhost:3000/api/cities');
+  const cities = (await flights.json()) as GetCities;
+  return cities;
+};
 
-  const flights = await getFlights();
+export default function Home() {
+  const [pickerIsHidden, setPickerIsHidden] = useState(true);
+
+  const [flights, setFlights] = useState<GetFlights>([]);
+  const [cities, setCities] = useState<GetCities>([]);
+
+  const [departureAirport, setDepartureAirport] = useState('');
+  const [arrivalAirport, setArrivalAirport] = useState('');
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 7),
+  });
+
+  useEffect(() => {
+    const load = async () => {
+      const data: GetCities = await getCities();
+      setCities(data);
+    };
+    load();
+  }, []);
+
+  useEffect(() => {
+    const load = async () => {
+      const data: GetFlights = await getFlights({
+        departureAirport,
+        arrivalAirport,
+        departureDate: dateRange!.from,
+        arrivalDate: dateRange!.to,
+      });
+      setFlights(data);
+    };
+
+    if (dateRange?.from && dateRange.to) {
+      load();
+    }
+  }, [arrivalAirport, departureAirport, dateRange]);
+
+  const loadCities = (
+    inputValue: string,
+    callback: (options: Array<Options>) => void,
+  ) => {
+    let filtered = cities;
+
+    if (inputValue) {
+      filtered = cities.filter(
+        ({ city, state }) =>
+          city.toLowerCase().includes(inputValue.toLowerCase()) ||
+          state.toLowerCase().includes(inputValue.toLowerCase()),
+      );
+    }
+    const filteredCities = filtered.map(({ city }) => {
+      return { value: city, label: city };
+    });
+
+    callback(filteredCities);
+  };
 
   return (
     <main className={styles.main}>
@@ -70,17 +150,59 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className={styles.selector}>
-          <Input placeholder="Digite a origem" />
-          <Input placeholder="Digite o destino" />
-          <DateRange
-            editableDateInputs={true}
-            minDate={new Date()}
-            onChange={(item) => setState([item.selection])}
-            moveRangeOnFirstSelection={false}
-            ranges={state}
+        <div className={styles.filter}>
+          <AsyncSelect
+            isLoading={false}
+            placeholder="Escolha a origem"
+            className={styles.selector}
+            cacheOptions
+            loadOptions={loadCities}
+            onChange={(v) => {
+              setDepartureAirport(v?.value || '');
+            }}
+            noOptionsMessage={() => 'Escreva a origem'}
           />
-          <Button>Procurar</Button>
+
+          <AsyncSelect
+            isLoading={false}
+            placeholder="Escolha o destino"
+            className={styles.selector}
+            cacheOptions
+            loadOptions={loadCities}
+            onChange={(v) => {
+              setArrivalAirport(v?.value || '');
+            }}
+            noOptionsMessage={() => 'Escreva o destino'}
+          />
+          <div
+            className={`${styles.calendar} ${
+              pickerIsHidden ? styles.hidden : ''
+            }`}
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setPickerIsHidden((state) => !state);
+              }}
+            >
+              {dateRange?.from &&
+                dateRange?.to &&
+                `de ${format(dateRange.from!, 'dd/MM')} até ${format(
+                  dateRange.to!,
+                  'dd/MM',
+                )}`}
+            </button>
+            <DayPicker
+              mode="range"
+              defaultMonth={new Date()}
+              locale={ptBR}
+              selected={dateRange}
+              onSelect={(range) => {
+                console.log(range);
+                setDateRange(range);
+              }}
+            />
+          </div>
         </div>
 
         <section className={styles.flights}>

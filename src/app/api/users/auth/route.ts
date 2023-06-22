@@ -43,6 +43,7 @@ export async function POST(request: Request) {
     user: userWithoutPassword,
     accessToken,
   });
+
   response.cookies.set({
     name: 'authorization',
     value: accessToken,

@@ -24,6 +24,8 @@ CREATE TABLE "pilots" (
 CREATE TABLE "airports" (
     "id" VARCHAR(36) NOT NULL,
     "name" VARCHAR(255) NOT NULL,
+    "city" VARCHAR(255) NOT NULL,
+    "state" VARCHAR(255) NOT NULL,
     "slug" VARCHAR(5) NOT NULL,
 
     CONSTRAINT "airports_pkey" PRIMARY KEY ("id")

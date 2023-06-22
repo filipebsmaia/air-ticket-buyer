@@ -1,12 +1,31 @@
-import React, { JSX } from 'react';
+'use client';
+
+import React, { JSX, useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import Button from '../Button';
 import Link from 'next/link';
-import { cookies } from 'next/headers';
+
+import { api } from '@/lib/api';
 
 const Header = (): JSX.Element => {
-  const cookieStore = cookies();
-  const isLoggedin = cookieStore.has('authorization');
+  const [isLoading, setLoading] = useState(true);
+  const [isLogged, setIsLogged] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        await api.get('/api/users/auth/check');
+        setIsLogged(true);
+      } catch {
+        setIsLogged(false);
+        //
+      }
+      setLoading(false);
+    };
+
+    load();
+  }, []);
+
   return (
     <header className={styles.header}>
       <img
@@ -22,30 +41,29 @@ const Header = (): JSX.Element => {
               <Link href="/">Destinos</Link>
             </span>
           </li>
-          <li>
-            <span>
-              <Link href="#flights">Meus voos</Link>
-            </span>
-          </li>
         </ul>
         <ul className={styles.left}>
-          {!isLoggedin ? (
+          {!isLoading && (
             <>
-              <li>
-                <span>
-                  <Link href="/login">Login</Link>
-                </span>
-              </li>
-              <li>
-                <Button>Criar conta</Button>
-              </li>
+              {!isLogged ? (
+                <>
+                  <li>
+                    <span>
+                      <Link href="/login">Login</Link>
+                    </span>
+                  </li>
+                  <li>
+                    <Button>Criar conta</Button>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <span>
+                    <Link href="/logout">Sair</Link>
+                  </span>
+                </li>
+              )}
             </>
-          ) : (
-            <li>
-              <span>
-                <Link href="/login">Sair</Link>
-              </span>
-            </li>
           )}
         </ul>
       </nav>

@@ -1,24 +1,21 @@
 'use client';
-import Input from '@/components/Input';
+
 import styles from './styles.module.scss';
+import Input from '@/components/Input';
 
 import Button from '@/components/Button';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { api } from '@/lib/api';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 
-export default function Home() {
+export default function Login() {
   const router = useRouter();
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  useEffect(() => {
-    api.get('/api/users/auth/logout');
-  }, []);
 
   const handleCreateUser = async (e: FormEvent) => {
     e.preventDefault();
@@ -29,7 +26,9 @@ export default function Home() {
         password,
       });
 
-      router.push('/');
+      setTimeout(() => {
+        router.push('/');
+      }, 100);
     } catch (err) {
       const error = err as unknown as AxiosError;
       setEmail('');

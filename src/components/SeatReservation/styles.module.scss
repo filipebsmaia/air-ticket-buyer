@@ -1,0 +1,74 @@
+@import "../../variables.module";
+
+.content {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
+
+}
+
+
+.summary {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  
+  border-radius: 30px;
+  background-color: #fff;
+  
+  padding-bottom: 1rem;
+
+}
+
+.pricing_detail {
+  padding: 0 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+
+  > ul {
+    margin-top: 1rem;
+    list-style: none;
+
+    li {
+      padding: 0.25rem 0;
+      display: flex;
+      justify-content: space-between;
+      color: $common;
+
+
+      &.executive {
+        color: $executive;
+      }
+    }
+  }
+}
+
+.pricing_sumary {
+  display: flex;
+  justify-content: space-between;
+  
+  border-top: 1px solid rgba(0, 0, 0, 0.0625);
+  margin: 1rem;
+  padding-top: 1rem;
+
+  > span {
+    font-weight: 500;
+    color: $primary-color;
+  }
+  
+  > strong {
+    font-weight: 600;
+    color: $primary-color;
+    filter: brightness(0.8);
+  }
+}
+
+.action {
+  display: flex;
+  flex-direction: column; 
+  
+  margin: 0 1rem;
+}
